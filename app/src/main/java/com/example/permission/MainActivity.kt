@@ -19,13 +19,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         button = findViewById(R.id.button)
         button.setOnClickListener {
-            requestPermissions()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                requestPermissions()
+            }
         }
     }
 
-    private fun hasWriteExternalStoragePermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-    private fun hasLocationForegroundPermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED
-    private fun hasLocationBackgroundPermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED
+    private fun hasWriteExternalStoragePermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    private fun hasLocationForegroundPermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun hasLocationBackgroundPermission() = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private fun requestPermissions(){
         var permissionToRequest = mutableListOf<String>()
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
+        permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
